@@ -32,7 +32,10 @@
       "!**/node_modules/**"
     ],
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "nursery": {
+        "useSortedClasses": "on"
+      }
     }
   },
   "javascript": {
@@ -51,9 +54,7 @@
     "enabled": true,
     "actions": {
       "source": {
-        "organizeImports": "on",
-        "useSortedAttributes": "on",
-        "useSortedProperties": "on"
+        "organizeImports": "off"
       }
     }
   }
