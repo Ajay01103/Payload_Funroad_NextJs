@@ -21,7 +21,7 @@ const buttonVariants = cva(
           "bg-white hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[4px] hover:-translate-y-[4px] transition-all",
       },
       size: {
-        default: "h-12 px-4 py-2 has-[>svg]:px-3",
+        default: "h-11 px-4 py-2 has-[>svg]:px-3",
         sm: "h-10 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-12 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
