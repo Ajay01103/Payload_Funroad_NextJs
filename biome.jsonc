@@ -29,7 +29,9 @@
     "includes": [
       "**/*.{js,ts,tsx,css,json,yml}",
       "!**/.next/**",
-      "!**/node_modules/**"
+      "!**/node_modules/**",
+      "!src/*.config.{js,ts,jsx,tsx}",
+      "!src/payload-types.{js,ts,jsx,tsx}"
     ],
     "rules": {
       "recommended": true,
