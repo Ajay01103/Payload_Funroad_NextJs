@@ -51,8 +51,7 @@ export const Navbar = () => {
     <nav className="flex h-20 justify-between border-b bg-white font-medium">
       <Link
         href="/"
-        className="flex items-center pl-6"
-      >
+        className="flex items-center pl-6">
         <span className={cn("font-semibold text-5xl", poppins.className)}>
           funroad
         </span>
@@ -69,8 +68,7 @@ export const Navbar = () => {
           <NavButton
             key={item.href}
             href={item.href}
-            isActive={pathName === item.href}
-          >
+            isActive={pathName === item.href}>
             {item.children}
           </NavButton>
         ))}
@@ -85,8 +83,7 @@ export const Navbar = () => {
               className:
                 "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-white px-12 text-lg transition-colors hover:bg-pink-400",
             })
-          )}
-        >
+          )}>
           Login
         </Link>
         <Link
@@ -97,8 +94,7 @@ export const Navbar = () => {
               className:
                 "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-black px-12 text-lg text-white transition-colors hover:bg-pink-400 hover:text-black",
             })
-          )}
-        >
+          )}>
           Start Selling
         </Link>
       </div>
@@ -107,8 +103,7 @@ export const Navbar = () => {
         <Button
           variant="ghost"
           className="size-12 border-transparent bg-white"
-          onClick={() => setSidebarOpen(true)}
-        >
+          onClick={() => setSidebarOpen(true)}>
           <MenuIcon />
         </Button>
       </div>
@@ -125,8 +120,7 @@ const NavButton = ({ children, isActive, href }: NavProps) => {
         "transition-colors",
         isActive ? "bg-black text-white hover:bg-black/90" : "hover:bg-gray-100",
         "rounded-full border-transparent px-4 hover:border-black"
-      )}
-    >
+      )}>
       {children}
     </Link>
   )
