@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
@@ -49,7 +49,8 @@
       "indentStyle": "space",
       "bracketSpacing": true,
       "lineWidth": 85,
-      "trailingCommas": "es5"
+      "trailingCommas": "es5",
+      "bracketSameLine": true
     }
   },
   "assist": {

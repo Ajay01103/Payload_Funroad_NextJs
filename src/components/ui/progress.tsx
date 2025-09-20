@@ -19,8 +19,7 @@ function Progress({
         "border bg-white",
         className
       )}
-      {...props}
-    >
+      {...props}>
       <ProgressPrimitive.Indicator
         data-slot="progress-indicator"
         className="h-full w-full flex-1 bg-pink-400 transition-all"

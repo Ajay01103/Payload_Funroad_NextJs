@@ -26,8 +26,7 @@ const Layout = ({ children }: Args) => (
   <RootLayout
     config={config}
     importMap={importMap}
-    serverFunction={serverFunction}
-  >
+    serverFunction={serverFunction}>
     {children}
   </RootLayout>
 )
