@@ -1,15 +1,15 @@
 "use client"
 
-import type { CustomCategory } from "@/app/(app)/(home)/types"
-import { CategoryDropdown } from "./category-dropdown"
+import { cn } from "@/lib/utils"
+import type { CategoriesGetManyOutput } from "@/modules/categories/types"
+import { ListFilter } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "../ui/button"
-import { cn } from "@/lib/utils"
-import { ListFilter } from "lucide-react"
 import { CategoriesSidebar } from "./categories-sidebar"
+import { CategoryDropdown } from "./category-dropdown"
 
 interface Props {
-  data: CustomCategory[]
+  data: CategoriesGetManyOutput
 }
 
 export const Categories = ({ data }: Props) => {
@@ -62,7 +62,6 @@ export const Categories = ({ data }: Props) => {
       <CategoriesSidebar
         open={isSidebarOpen}
         onOpenChange={setIsSidebarOpen}
-        data={data}
       />
       {/* hidden div to measure all items */}
       <div

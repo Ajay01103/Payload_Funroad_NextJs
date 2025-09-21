@@ -3909,10 +3909,61 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.89.0":
+  version: 5.89.0
+  resolution: "@tanstack/query-core@npm:5.89.0"
+  checksum: 10/52895f3b869563a1ab1a5449c721ca7edda492c4903ea2a95b38a72b8e05e3d515df519ff3a93ee7dee27bab6abd7ae498439334e9dcbf7126e1e6874bef4d26
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.89.0":
+  version: 5.89.0
+  resolution: "@tanstack/react-query@npm:5.89.0"
+  dependencies:
+    "@tanstack/query-core": "npm:5.89.0"
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 10/8c3f81ede098325e3cfa8803bf5647c159fc7dde23f81b347a36e12366164f58a349be3e7d6f68ece6208ddeb09947f3e26091161579ffdcc2e62baae8fa25d0
+  languageName: node
+  linkType: hard
+
 "@tokenizer/token@npm:^0.3.0":
   version: 0.3.0
   resolution: "@tokenizer/token@npm:0.3.0"
   checksum: 10/889c1f1e63ac7c92c0ea22d4a2861142f1b43c3d92eb70ec42aa9e9851fab2e9952211d50f541b287781280df2f979bf5600a9c1f91fbc61b7fcf9994e9376a5
+  languageName: node
+  linkType: hard
+
+"@trpc/client@npm:^11.5.1":
+  version: 11.5.1
+  resolution: "@trpc/client@npm:11.5.1"
+  peerDependencies:
+    "@trpc/server": 11.5.1
+    typescript: ">=5.7.2"
+  checksum: 10/fd69a2efb8cde1826cda6987a3c76ff9fbe401e0a13cc1df838e85e97c74023210682222a414d71e09619a6ffea8b4c8d20cba9a225664d289ddfe151ac45a76
+  languageName: node
+  linkType: hard
+
+"@trpc/server@npm:^11.5.1":
+  version: 11.5.1
+  resolution: "@trpc/server@npm:11.5.1"
+  peerDependencies:
+    typescript: ">=5.7.2"
+  checksum: 10/35e79f8e76ea7a7db20b6cf65835a5f9ea4e1b8819ff2d25c5abbddc97fde01c274b05656a80790496863aa4c26f266e22c98859b6a27e4103e9e718f2fe087a
+  languageName: node
+  linkType: hard
+
+"@trpc/tanstack-react-query@npm:^11.5.1":
+  version: 11.5.1
+  resolution: "@trpc/tanstack-react-query@npm:11.5.1"
+  peerDependencies:
+    "@tanstack/react-query": ^5.80.3
+    "@trpc/client": 11.5.1
+    "@trpc/server": 11.5.1
+    react: ">=18.2.0"
+    react-dom: ">=18.2.0"
+    typescript: ">=5.7.2"
+  checksum: 10/26ac77f3469cf09dd1e8cc9be610b19c68c710256e5d04a1cbc6c6f91a46cefa23dcaa226a59910394b4710a1040bb7336ec013aab48e17adc3db876dec54095
   languageName: node
   linkType: hard
 
@@ -4449,7 +4500,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client-only@npm:0.0.1":
+"client-only@npm:0.0.1, client-only@npm:^0.0.1":
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
   checksum: 10/0c16bf660dadb90610553c1d8946a7fdfb81d624adea073b8440b7d795d5b5b08beb3c950c6a2cf16279365a3265158a236876d92bce16423c485c322d7dfaf8
@@ -4526,6 +4577,15 @@ __metadata:
   version: 1.9.0
   resolution: "convert-source-map@npm:1.9.0"
   checksum: 10/dc55a1f28ddd0e9485ef13565f8f756b342f9a46c4ae18b843fe3c30c675d058d6a4823eff86d472f187b176f0adf51ea7b69ea38be34be4a63cbbf91b0593c8
+  languageName: node
+  linkType: hard
+
+"copy-anything@npm:^3.0.2":
+  version: 3.0.5
+  resolution: "copy-anything@npm:3.0.5"
+  dependencies:
+    is-what: "npm:^4.1.8"
+  checksum: 10/4c41385a94a1cff6352a954f9b1c05b6bb1b70713a2d31f4c7b188ae7187ce00ddcc9c09bd58d24cd35b67fc6dd84df5954c0be86ea10700ff74e677db3cb09c
   languageName: node
   linkType: hard
 
@@ -5161,10 +5221,15 @@ __metadata:
     "@radix-ui/react-slot": "npm:^1.2.3"
     "@radix-ui/react-tooltip": "npm:^1.2.7"
     "@tailwindcss/postcss": "npm:^4"
+    "@tanstack/react-query": "npm:^5.89.0"
+    "@trpc/client": "npm:^11.5.1"
+    "@trpc/server": "npm:^11.5.1"
+    "@trpc/tanstack-react-query": "npm:^11.5.1"
     "@types/node": "npm:^24.2.1"
     "@types/react": "npm:^19.1.10"
     "@types/react-dom": "npm:^19.1.7"
     class-variance-authority: "npm:^0.7.1"
+    client-only: "npm:^0.0.1"
     clsx: "npm:^2.1.1"
     graphql: "npm:^16.11.0"
     lucide-react: "npm:^0.526.0"
@@ -5172,11 +5237,14 @@ __metadata:
     payload: "npm:^3.51.0"
     react: "npm:19.1.1"
     react-dom: "npm:19.1.1"
+    server-only: "npm:^0.0.1"
     sharp: "npm:^0.34.3"
+    superjson: "npm:^2.2.2"
     tailwind-merge: "npm:^3.3.1"
     tailwindcss: "npm:^4.1.11"
     tw-animate-css: "npm:^1.3.6"
     typescript: "npm:^5.9.2"
+    zod: "npm:^4.1.9"
   languageName: unknown
   linkType: soft
 
@@ -5549,6 +5617,13 @@ __metadata:
   version: 7.0.0
   resolution: "is-number@npm:7.0.0"
   checksum: 10/6a6c3383f68afa1e05b286af866017c78f1226d43ac8cb064e115ff9ed85eb33f5c4f7216c96a71e4dfea289ef52c5da3aef5bbfade8ffe47a0465d70c0c8e86
+  languageName: node
+  linkType: hard
+
+"is-what@npm:^4.1.8":
+  version: 4.1.16
+  resolution: "is-what@npm:4.1.16"
+  checksum: 10/f6400634bae77be6903365dc53817292e1c4d8db1b467515d0c842505b8388ee8e558326d5e6952cb2a9d74116eca2af0c6adb8aa7e9d5c845a130ce9328bf13
   languageName: node
   linkType: hard
 
@@ -7356,6 +7431,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"server-only@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "server-only@npm:0.0.1"
+  checksum: 10/c432348956641ea3f460af8dc3765f3a1bdbcf7a1e0205b0756d868e6e6fe8934cdee6bff68401a1dd49ba4a831c75916517a877446d54b334f7de36fa273e53
+  languageName: node
+  linkType: hard
+
 "sharp@npm:^0.34.3":
   version: 0.34.3
   resolution: "sharp@npm:0.34.3"
@@ -7707,6 +7789,15 @@ __metadata:
   version: 4.2.0
   resolution: "stylis@npm:4.2.0"
   checksum: 10/58359185275ef1f39c339ae94e598168aa6bb789f6cf0d52e726c1e7087a94e9c17f0385a28d34483dec1ffc2c75670ec714dc5603d99c3124ec83bc2b0a0f42
+  languageName: node
+  linkType: hard
+
+"superjson@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "superjson@npm:2.2.2"
+  dependencies:
+    copy-anything: "npm:^3.0.2"
+  checksum: 10/6fdc709db4f69d586a18379948e0ade8268c851c791701fea960e29cea12672d7561b4ca89c4049c2e787eb1cec08a51df51d357aa6852078bc0d71d7e17b401
   languageName: node
   linkType: hard
 
@@ -8244,6 +8335,13 @@ __metadata:
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: 10/e088b37b4d4885b70b50c9fa1b7e54bd2e27f5c87205f9deaffd1fb293ab263d9c964feadb9817a7b129a5bf30a06582cb08750f810568ecc14f3cdbabb79cb3
+  languageName: node
+  linkType: hard
+
+"zod@npm:^4.1.9":
+  version: 4.1.9
+  resolution: "zod@npm:4.1.9"
+  checksum: 10/e9197869b65c858132f85ab877b3c6e7477d9782b8693fb7bff25a69b5fbfa6781cc0c98d465d543cc428c34a5aa370af8652cbf1842d4a67ab2139cfc99b408
   languageName: node
   linkType: hard
 
