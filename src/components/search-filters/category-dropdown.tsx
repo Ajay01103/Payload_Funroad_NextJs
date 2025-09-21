@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils"
 import { useRef, useState } from "react"
 import { useDropdownPosition } from "./use-dropdown-position"
 import { SubCategoryMenu } from "./subcategory-menu"
-import type { CustomCategory } from "@/app/(app)/(home)/types"
 import Link from "next/link"
+import type { CategoriesGetManyOutput } from "@/modules/categories/types"
 
 interface Props {
-  category: CustomCategory
+  category: CategoriesGetManyOutput[1]
   isActive?: boolean
   isNavigationHovered?: boolean
 }
@@ -37,7 +37,7 @@ export const CategoryDropdown = ({
 
   // improove mobile mode filters can be disabled at no worry
   const toggleDropdown = () => {
-    if (category.subcategories.docs?.length) {
+    if (category.subcategories.length) {
       setIsOpen(!isOpen)
     }
   }

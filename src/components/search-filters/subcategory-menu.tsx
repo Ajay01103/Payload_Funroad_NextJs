@@ -1,8 +1,8 @@
-import type { CustomCategory } from "@/app/(app)/(home)/types"
+import type { CategoriesGetManyOutput } from "@/modules/categories/types"
 import Link from "next/link"
 
 interface Props {
-  category: CustomCategory
+  category: CategoriesGetManyOutput[1]
   isOpen: boolean
   position: { top: number; left: number }
 }
