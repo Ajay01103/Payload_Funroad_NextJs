@@ -8,9 +8,10 @@ export const Users: CollectionConfig = {
   auth: true,
   fields: [
     {
-      name: "name",
+      name: "username",
       type: "text",
       required: true,
+      unique: true,
     },
     {
       name: "email",
