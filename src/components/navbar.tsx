@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation"
 import { NavbarSidebar } from "./navbar-sidebar"
 import { useState } from "react"
 import { MenuIcon } from "lucide-react"
+import { useTRPC } from "@/trpc/client"
+import { useQuery } from "@tanstack/react-query"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -44,6 +46,9 @@ const NavItems = [
 ]
 
 export const Navbar = () => {
+  const trpc = useTRPC()
+  const session = useQuery(trpc.auth.session.queryOptions())
+
   const pathName = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -74,30 +79,46 @@ export const Navbar = () => {
         ))}
       </div>
 
-      <div className="hidden lg:flex">
-        <Link
-          href="/sign-in"
-          className={cn(
-            buttonVariants({
-              variant: "secondary",
-              className:
-                "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-white px-12 text-lg transition-colors hover:bg-pink-400",
-            })
-          )}>
-          Login
-        </Link>
-        <Link
-          href="/sign-up"
-          className={cn(
-            buttonVariants({
-              variant: "secondary",
-              className:
-                "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-black px-12 text-lg text-white transition-colors hover:bg-pink-400 hover:text-black",
-            })
-          )}>
-          Start Selling
-        </Link>
-      </div>
+      {session.data?.user ? (
+        <div className="hidden lg:flex">
+          <Link
+            href="/admin"
+            className={cn(
+              buttonVariants({
+                variant: "secondary",
+                className:
+                  "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-black px-12 text-lg text-white transition-colors hover:bg-pink-400 hover:text-black",
+              })
+            )}>
+            Dashboard
+          </Link>
+        </div>
+      ) : (
+        <div className="hidden lg:flex">
+          <Link
+            href="/sign-in"
+            className={cn(
+              buttonVariants({
+                variant: "secondary",
+                className:
+                  "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-white px-12 text-lg transition-colors hover:bg-pink-400",
+              })
+            )}>
+            Login
+          </Link>
+          <Link
+            href="/sign-up"
+            className={cn(
+              buttonVariants({
+                variant: "secondary",
+                className:
+                  "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-black px-12 text-lg text-white transition-colors hover:bg-pink-400 hover:text-black",
+              })
+            )}>
+            Start Selling
+          </Link>
+        </div>
+      )}
 
       <div className="flex items-center justify-center lg:hidden">
         <Button
