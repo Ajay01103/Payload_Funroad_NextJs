@@ -1,8 +1,7 @@
-import { headers as getHeaders, cookies as getCookies } from "next/headers"
+import { cookies as getCookies, headers as getHeaders } from "next/headers"
 
 import { baseProcedure, createTRPCRouter } from "@/trpc/init"
 import { TRPCError } from "@trpc/server"
-import { AUTH_COOKIE } from "../constants"
 import { loginAuthScehma, registerAuthSchema } from "../schema"
 
 export const authRouter = createTRPCRouter({
@@ -19,22 +18,46 @@ export const authRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { payload } = ctx
 
-      const existingData = payload.find({
+      // Check for existing username or email in a single query
+      const existingUsers = await payload.find({
         collection: "users",
-        limit: 1,
+        limit: 2, // We only need to find up to 2 users (one for username, one for email)
         where: {
-          username: {
-            equals: input.username,
-          },
+          or: [
+            {
+              username: {
+                equals: input.username,
+              },
+            },
+            {
+              email: {
+                equals: input.email,
+              },
+            },
+          ],
         },
       })
 
-      const existingUser = (await existingData).docs[0]
+      // Check which field(s) are already taken
+      const existingUsername = existingUsers.docs.find(
+        (user) => user.username === input.username
+      )
 
-      if (existingUser) {
+      if (existingUsername) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "username already taken",
+          message: "Username already taken",
+        })
+      }
+
+      const existingEmail = existingUsers.docs.find(
+        (user) => user.email === input.email
+      )
+
+      if (existingEmail) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Email already registered",
         })
       }
 
@@ -62,7 +85,7 @@ export const authRouter = createTRPCRouter({
 
       const cookies = await getCookies()
       cookies.set({
-        name: AUTH_COOKIE,
+        name: `${payload.config.cookiePrefix}-token`, // standard way for payload auth otherwise auth will not work
         value: data.token,
         httpOnly: true,
         path: "/",
@@ -88,7 +111,7 @@ export const authRouter = createTRPCRouter({
 
     const cookies = await getCookies()
     cookies.set({
-      name: AUTH_COOKIE,
+      name: `${payload.config.cookiePrefix}-token`, // standard way for payload auth otherwise auth will not work
       value: data.token,
       httpOnly: true,
       path: "/",
@@ -99,8 +122,10 @@ export const authRouter = createTRPCRouter({
 
     return data
   }),
-  logout: baseProcedure.mutation(async () => {
+  logout: baseProcedure.mutation(async ({ ctx }) => {
+    const { payload } = ctx
+
     const cookies = await getCookies()
-    cookies.delete(AUTH_COOKIE)
+    cookies.delete(`${payload.config.cookiePrefix}-token`)
   }),
 })

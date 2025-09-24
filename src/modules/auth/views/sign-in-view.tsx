@@ -18,7 +18,7 @@ import type { z } from "zod/v4"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "@/components/ui/input"
 import { useTRPC } from "@/trpc/client"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 
@@ -29,14 +29,16 @@ const poppins = Poppins({
 
 export const SignInView = () => {
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const trpc = useTRPC()
   const loginMutation = useMutation(
     trpc.auth.login.mutationOptions({
       onError: (error) => {
-        toast.error("Something went wrong", { description: error.message })
+        toast.error("Something went wrong", { description: error.shape?.message })
       },
       onSuccess: () => {
+        queryClient.invalidateQueries(trpc.auth.session.queryFilter())
         router.push("/")
       },
     })
@@ -120,7 +122,7 @@ export const SignInView = () => {
               size="lg"
               variant="elevated"
               className="bg-black text-white hover:bg-pink-400 hover:text-primary">
-              Create account
+              Sign in
             </Button>
           </form>
         </Form>
