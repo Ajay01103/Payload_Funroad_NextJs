@@ -7,12 +7,17 @@ import { useEffect, useRef, useState } from "react"
 import { Button } from "../ui/button"
 import { CategoriesSidebar } from "./categories-sidebar"
 import { CategoryDropdown } from "./category-dropdown"
+import { useParams } from "next/navigation"
 
 interface Props {
   data: CategoriesGetManyOutput
 }
 
 export const Categories = ({ data }: Props) => {
+  const params = useParams()
+  const categoryParam = params.category as string | undefined
+  const activeCategory = categoryParam || "all"
+
   const containerRef = useRef<HTMLDivElement>(null)
   const measureRef = useRef<HTMLDivElement>(null)
   const viewallRef = useRef<HTMLDivElement>(null)
@@ -20,8 +25,6 @@ export const Categories = ({ data }: Props) => {
   const [visibleCount, setVisibleCount] = useState(data.length)
   const [isAnyHovered, setIsAnyHovered] = useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-
-  const activeCategory = "all"
 
   const activeCategoryIndex = data.findIndex((cat) => cat.slug === activeCategory)
   const isActiveCategoryHidden =
@@ -89,7 +92,6 @@ export const Categories = ({ data }: Props) => {
             <CategoryDropdown
               category={category}
               isActive={activeCategory === category.slug}
-              isNavigationHovered={isAnyHovered}
             />
           </div>
         ))}
@@ -98,6 +100,7 @@ export const Categories = ({ data }: Props) => {
           ref={viewallRef}
           className="shrink-0">
           <Button
+            variant="elevated"
             onClick={() => setIsSidebarOpen(true)}
             className={cn(
               "h-11 rounded-full border-transparent bg-transparent px-4 text-black hover:border-primary hover:bg-white",
