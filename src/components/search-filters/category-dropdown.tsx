@@ -13,14 +13,9 @@ import type { CategoriesGetManyOutput } from "@/modules/categories/types"
 interface Props {
   category: CategoriesGetManyOutput[1]
   isActive?: boolean
-  isNavigationHovered?: boolean
 }
 
-export const CategoryDropdown = ({
-  category,
-  isActive,
-  isNavigationHovered,
-}: Props) => {
+export const CategoryDropdown = ({ category, isActive }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownref = useRef<HTMLDivElement>(null)
 
@@ -55,7 +50,7 @@ export const CategoryDropdown = ({
           variant="elevated"
           className={cn(
             "h-11 rounded-full border-transparent bg-transparent px-4 text-black hover:border-primary hover:bg-white",
-            isActive && !isNavigationHovered && "border-primary bg-white",
+            isActive && "border-primary bg-white",
             isOpen &&
               "-translate-x-[4px] -translate-y-[4px] border-primary bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
           )}>
