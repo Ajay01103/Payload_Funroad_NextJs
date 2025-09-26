@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { ScrollArea } from "../ui/scroll-area"
 
-type CategoryItem =
-  | CategoriesGetManyOutput[1]
-  | CategoriesGetManyOutput[1]["subcategories"][0]
+// type CategoryItem =
+//   | CategoriesGetManyOutput[1]
+//   | CategoriesGetManyOutput[1]["subcategories"][0]
 
 interface Props {
   open: boolean
@@ -22,15 +22,14 @@ export const CategoriesSidebar = ({ onOpenChange, open }: Props) => {
   const trpc = useTRPC()
   const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions())
 
-  const [parentCategories, setParentCategories] = useState<
-    CategoriesGetManyOutput[1]["subcategories"] | null
-  >(null)
+  const [parentCategories, setParentCategories] =
+    useState<CategoriesGetManyOutput | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<
     CategoriesGetManyOutput[1] | null
   >(null)
 
   // show parent categories if we have those
-  const currentCategories: CategoryItem[] = parentCategories ?? data ?? []
+  const currentCategories = parentCategories ?? data ?? []
 
   const handleOpenChange = (open: boolean) => {
     setSelectedCategory(null)
@@ -38,14 +37,10 @@ export const CategoriesSidebar = ({ onOpenChange, open }: Props) => {
     onOpenChange(open)
   }
 
-  const handleCategoryClick = (category: CategoryItem) => {
-    if (
-      "subcategories" in category &&
-      category.subcategories &&
-      category.subcategories.length > 0
-    ) {
-      setParentCategories(category.subcategories)
-      setSelectedCategory(category as CategoriesGetManyOutput[1])
+  const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
+    if (category.subcategories && category.subcategories.length > 0) {
+      setParentCategories(category.subcategories as CategoriesGetManyOutput)
+      setSelectedCategory(category)
     } else {
       // if there is no subcategories
       if (parentCategories && selectedCategory) {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { DM_Sans } from "next/font/google"
 import "./globals.css"
+import { NuqsAdapter } from "nuqs/adapters/next/app"
 import { TRPCReactProvider } from "@/trpc/client"
 import { Toaster } from "@/components/ui/sonner"
 
@@ -21,13 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dm_sans.className} antialiased`}>
-        <TRPCReactProvider>
-          {children}
-          <Toaster
-            richColors
-            position="top-center"
-          />
-        </TRPCReactProvider>
+        <NuqsAdapter>
+          <TRPCReactProvider>
+            {children}
+            <Toaster
+              richColors
+              position="top-center"
+            />
+          </TRPCReactProvider>
+        </NuqsAdapter>
       </body>
     </html>
   )
