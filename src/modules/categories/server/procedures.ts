@@ -7,6 +7,7 @@ export const categoriesRouter = createTRPCRouter({
 
     const data = await payload.find({
       collection: "categories",
+      pagination: false,
       depth: 1,
       where: {
         parent: {
