@@ -1,8 +1,9 @@
 /** biome-ignore-all lint/a11y/useFocusableInteractive: fine to use */
 /** biome-ignore-all lint/a11y/useSemanticElements: fine to use */
-import type * as React from "react"
+
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
+import type * as React from "react"
 
 import { cn } from "@/lib/utils"
 

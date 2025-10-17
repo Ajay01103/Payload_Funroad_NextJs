@@ -1,9 +1,14 @@
 "use client"
 
-import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { Poppins } from "next/font/google"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import type { z } from "zod/v4"
-import { registerAuthSchema } from "../schema"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -13,15 +18,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
-import { Poppins } from "next/font/google"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 import { useTRPC } from "@/trpc/client"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
-import { useRouter } from "next/navigation"
+import { registerAuthSchema } from "../schema"
 
 const poppins = Poppins({
   subsets: ["latin"],

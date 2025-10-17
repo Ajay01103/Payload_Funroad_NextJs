@@ -1,10 +1,10 @@
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
-import type { CategoriesGetManyOutput } from "@/modules/categories/types"
-import { useTRPC } from "@/trpc/client"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import type { CategoriesGetManyOutput } from "@/modules/categories/types"
+import { useTRPC } from "@/trpc/client"
 import { ScrollArea } from "../ui/scroll-area"
 
 // type CategoryItem =

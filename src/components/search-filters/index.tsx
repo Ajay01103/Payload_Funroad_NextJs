@@ -1,12 +1,12 @@
 "use client"
 
-import { useTRPC } from "@/trpc/client"
 import { useSuspenseQuery } from "@tanstack/react-query"
-import { Categories } from "./categories"
-import { SearchInput } from "./search-input"
 import { useParams } from "next/navigation"
 import { DEFAULT_BG_COLOR } from "@/constants"
+import { useTRPC } from "@/trpc/client"
 import { BreadCrumbNavigation } from "./bread-crumb-navigation"
+import { Categories } from "./categories"
+import { SearchInput } from "./search-input"
 
 export const SearchFilters = () => {
   const trpc = useTRPC()

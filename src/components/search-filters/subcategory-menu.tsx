@@ -1,5 +1,5 @@
-import type { CategoriesGetManyOutput } from "@/modules/categories/types"
 import Link from "next/link"
+import type { CategoriesGetManyOutput } from "@/modules/categories/types"
 
 interface Props {
   category: CategoriesGetManyOutput[1]

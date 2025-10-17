@@ -1,63 +1,59 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.6/schema.json",
   "vcs": {
-    "enabled": false,
+    "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": false
+    "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
-    "includes": [
-      "**/*.{js,ts,tsx,css,json,yml}",
-      "!**/.next/**",
-      "!**/node_modules/**"
-    ]
+    "ignoreUnknown": true,
+    "includes": ["**", "!node_modules", "!.next", "!dist", "!build", "!src/generated"]
   },
   "formatter": {
-    "includes": [
-      "**/*.{js,ts,tsx,css,json,yml}",
-      "!**/.next/**",
-      "!**/node_modules/**"
-    ],
     "enabled": true,
     "indentStyle": "space",
-    "attributePosition": "multiline",
-    "formatWithErrors": true
-  },
-  "linter": {
-    "enabled": true,
-    "includes": [
-      "**/*.{js,ts,tsx,css,json,yml}",
-      "!**/.next/**",
-      "!**/node_modules/**",
-      "!src/*.config.{js,ts,jsx,tsx}",
-      "!src/payload-types.{js,ts,jsx,tsx}"
-    ],
-    "rules": {
-      "recommended": true,
-      "nursery": {
-        "useSortedClasses": "on"
-      }
-    }
+    "indentWidth": 2,
+    "lineEnding": "crlf",
+    "bracketSameLine": true,
+    "bracketSpacing": true,
+    "lineWidth": 85,
+    "attributePosition": "multiline"
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double",
       "semicolons": "asNeeded",
-      "attributePosition": "multiline",
-      "lineEnding": "crlf",
-      "indentStyle": "space",
-      "bracketSpacing": true,
-      "lineWidth": 85,
-      "trailingCommas": "es5",
-      "bracketSameLine": true
+      "quoteStyle": "double",
+      "trailingCommas": "es5"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "includes": ["!payload-types.ts"],
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noUnknownAtRules": "off"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "on",
+          "options": {
+            "attributes": ["classList", "className"],
+            "functions": ["clsx", "cva", "tw", "tw.*"]
+          }
+        }
+      }
+    },
+    "domains": {
+      "next": "recommended",
+      "react": "recommended"
     }
   },
   "assist": {
-    "enabled": true,
     "actions": {
       "source": {
-        "organizeImports": "off"
+        "organizeImports": "on"
       }
     }
   }

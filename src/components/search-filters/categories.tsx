@@ -1,13 +1,13 @@
 "use client"
 
+import { ListFilter } from "lucide-react"
+import { useParams } from "next/navigation"
+import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 import type { CategoriesGetManyOutput } from "@/modules/categories/types"
-import { ListFilter } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
 import { Button } from "../ui/button"
 import { CategoriesSidebar } from "./categories-sidebar"
 import { CategoryDropdown } from "./category-dropdown"
-import { useParams } from "next/navigation"
 
 interface Props {
   data: CategoriesGetManyOutput
