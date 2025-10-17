@@ -1,7 +1,6 @@
-import { cookies as getCookies, headers as getHeaders } from "next/headers"
-
-import { baseProcedure, createTRPCRouter } from "@/trpc/init"
 import { TRPCError } from "@trpc/server"
+import { cookies as getCookies, headers as getHeaders } from "next/headers"
+import { baseProcedure, createTRPCRouter } from "@/trpc/init"
 import { loginAuthScehma, registerAuthSchema } from "../schema"
 
 export const authRouter = createTRPCRouter({
@@ -80,7 +79,10 @@ export const authRouter = createTRPCRouter({
       })
 
       if (!data.token) {
-        throw new TRPCError({ code: "UNAUTHORIZED", message: "Failed to login" })
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Failed to login",
+        })
       }
 
       const cookies = await getCookies()
@@ -106,7 +108,10 @@ export const authRouter = createTRPCRouter({
     })
 
     if (!data.token) {
-      throw new TRPCError({ code: "UNAUTHORIZED", message: "Failed to login" })
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Failed to login",
+      })
     }
 
     const cookies = await getCookies()

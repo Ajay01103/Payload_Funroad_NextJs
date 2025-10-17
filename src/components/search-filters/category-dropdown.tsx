@@ -2,13 +2,13 @@
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: no problem */
 "use client"
 
-import { Button } from "../ui/button"
-import { cn } from "@/lib/utils"
-import { useRef, useState } from "react"
-import { useDropdownPosition } from "./use-dropdown-position"
-import { SubCategoryMenu } from "./subcategory-menu"
 import Link from "next/link"
+import { useRef, useState } from "react"
+import { cn } from "@/lib/utils"
 import type { CategoriesGetManyOutput } from "@/modules/categories/types"
+import { Button } from "../ui/button"
+import { SubCategoryMenu } from "./subcategory-menu"
+import { useDropdownPosition } from "./use-dropdown-position"
 
 interface Props {
   category: CategoriesGetManyOutput[1]

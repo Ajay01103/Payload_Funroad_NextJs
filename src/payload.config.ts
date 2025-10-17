@@ -1,17 +1,18 @@
 // storage-adapter-import-placeholder
+
+// import { s3Storage } from "@payloadcms/storage-s3"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
 import { mongooseAdapter } from "@payloadcms/db-mongodb"
 // import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from "@payloadcms/richtext-lexical"
-// import { s3Storage } from "@payloadcms/storage-s3"
-import path from "path"
 import { buildConfig } from "payload"
 import sharp from "sharp"
-import { fileURLToPath } from "url"
-
-import { Media } from "./collections/Media"
-import { Users } from "./collections/Users"
 import { Categories } from "./collections/Categories"
+import { Media } from "./collections/Media"
 import { Products } from "./collections/Products"
+import { Tags } from "./collections/Tags"
+import { Users } from "./collections/Users"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,7 +24,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Categories, Products],
+  collections: [Users, Media, Categories, Products, Tags],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   cookiePrefix: "funroad",

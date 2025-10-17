@@ -1,13 +1,13 @@
 "use client"
 
-import { Input } from "@/components/ui/input"
+import { useQuery } from "@tanstack/react-query"
 import { BookmarkCheck, ListFilter, SearchIcon } from "lucide-react"
+import Link from "next/link"
 import { useState } from "react"
+import { Input } from "@/components/ui/input"
+import { useTRPC } from "@/trpc/client"
 import { Button } from "../ui/button"
 import { CategoriesSidebar } from "./categories-sidebar"
-import { useTRPC } from "@/trpc/client"
-import { useQuery } from "@tanstack/react-query"
-import Link from "next/link"
 
 interface Props {
   disabled?: boolean

@@ -1,5 +1,13 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { Poppins } from "next/font/google"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import type { z } from "zod/v4"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -9,18 +17,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { cn } from "@/lib/utils"
-import { Poppins } from "next/font/google"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { loginAuthScehma } from "../schema"
-import type { z } from "zod/v4"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 import { useTRPC } from "@/trpc/client"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
-import { useRouter } from "next/navigation"
+import { loginAuthScehma } from "../schema"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -35,7 +35,9 @@ export const SignInView = () => {
   const loginMutation = useMutation(
     trpc.auth.login.mutationOptions({
       onError: (error) => {
-        toast.error("Something went wrong", { description: error.shape?.message })
+        toast.error("Something went wrong", {
+          description: error.shape?.message,
+        })
       },
       onSuccess: () => {
         queryClient.invalidateQueries(trpc.auth.session.queryFilter())
