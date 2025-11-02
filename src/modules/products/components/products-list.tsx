@@ -1,8 +1,12 @@
 "use client"
 
-import { useSuspenseQuery } from "@tanstack/react-query"
+import { useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query"
+import { Inbox } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { DEFA_LIMIT } from "@/constants"
 import { useTRPC } from "@/trpc/client"
 import { useProductFilters } from "../hooks/use-product-filters"
+import { ProductCard, ProductCardSkeleton } from "./product-card"
 
 interface Props {
   category?: string
@@ -11,24 +15,67 @@ interface Props {
 export const ProductList = ({ category }: Props) => {
   const [filters] = useProductFilters()
   const trpc = useTRPC()
-  const { data } = useSuspenseQuery(
-    trpc.products.getMany.queryOptions({ category, ...filters })
-  )
+  const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useSuspenseInfiniteQuery(
+      trpc.products.getMany.infiniteQueryOptions(
+        { category, ...filters, limit: DEFA_LIMIT },
+        {
+          getNextPageParam: (lastPage) => {
+            return lastPage.docs.length > 0 ? lastPage.nextPage : undefined
+          },
+        }
+      )
+    )
+
+  if (data.pages?.[0]?.docs.length === 0) {
+    return (
+      <div className="border border-black border-dashed flex items-center justify-center p-8 flex-col gap-y-4 bg-white w-full rounded-lg">
+        <Inbox />
+        <p className="text-base font-medium">No products found</p>
+      </div>
+    )
+  }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-      {data.docs.map((product) => (
-        <div
-          key={product.id}
-          className="rounded-md border bg-white">
-          <h2 className="font-medium text-xl">{product.name}</h2>
-          <p>{product.price}</p>
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        {data.pages
+          .flatMap((page) => page.docs)
+          .map((product) => (
+            <ProductCard
+              id={product.id}
+              key={product.id}
+              name={product.name}
+              imageUrl={product.image?.url}
+              authorName="Ajay"
+              authorImageUrl={undefined}
+              reviewCount={5}
+              reviewRating={3}
+              price={product.price}
+            />
+          ))}
+      </div>
+      <div className="flex justify-center pt-8">
+        {hasNextPage && (
+          <Button
+            disabled={isFetchingNextPage}
+            onClick={() => fetchNextPage()}
+            className="font-medium disabled:opacity-50 text-base bg-white"
+            variant="elevated">
+            Load more
+          </Button>
+        )}
+      </div>
+    </>
   )
 }
 
 export const ProductListSkeleton = () => {
-  return <div>Loading....</div>
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+      {Array.from({ length: DEFA_LIMIT }).map((_, index) => (
+        <ProductCardSkeleton key={index} />
+      ))}
+    </div>
+  )
 }
