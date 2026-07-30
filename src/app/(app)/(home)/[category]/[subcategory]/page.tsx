@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { SearchParams } from "nuqs/server"
 import { Suspense } from "react"
+import { DEFA_LIMIT } from "@/constants"
 import { ProductListSkeleton } from "@/modules/products/components/products-list"
 import { loadProductFilters } from "@/modules/products/hooks/searchParams"
 import { ProductListView } from "@/modules/products/views/product-list-view"
@@ -20,8 +21,19 @@ const SubCategoryPage = async ({ params, searchParams }: Props) => {
   const queryClient = getQueryClient()
 
   // prefetching
-  void queryClient.prefetchQuery(
-    trpc.products.getMany.queryOptions({ category: subcategory, ...filters })
+  void queryClient.prefetchInfiniteQuery(
+    trpc.products.getMany.infiniteQueryOptions(
+      {
+        category: subcategory,
+        limit: DEFA_LIMIT,
+        ...filters,
+      },
+      {
+        getNextPageParam: (lastPage) => {
+          return lastPage.docs.length > 0 ? lastPage.nextPage : undefined
+        },
+      },
+    ),
   )
 
   return (

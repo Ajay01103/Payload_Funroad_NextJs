@@ -33,7 +33,7 @@ function getUrl() {
 export function TRPCReactProvider(
   props: Readonly<{
     children: React.ReactNode
-  }>
+  }>,
 ) {
   // NOTE: Avoid useState when initializing the query client if you don't
   //       have a suspense boundary between this and the code that may
@@ -44,11 +44,12 @@ export function TRPCReactProvider(
     createTRPCClient<AppRouter>({
       links: [
         httpBatchLink({
+          //@ts-expect-error - superjson is not typed in the trpc client yet
           transformer: superjson,
           url: getUrl(),
         }),
       ],
-    })
+    }),
   )
   return (
     <QueryClientProvider client={queryClient}>

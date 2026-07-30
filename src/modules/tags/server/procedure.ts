@@ -8,7 +8,7 @@ export const tagsRouter = createTRPCRouter({
       z.object({
         cursor: z.number().default(1),
         limit: z.number().default(DEFAULT_TAGS_LIMIT),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       const { payload } = ctx

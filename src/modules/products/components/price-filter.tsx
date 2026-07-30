@@ -14,8 +14,7 @@ export const FormatAsCurrency = (value: string) => {
   const numericValue = value.replace(/[^0-9.]/g, "")
 
   const parts = numericValue.split(".")
-  const formattedValue =
-    parts[0] + (parts.length > 1 ? `.${parts[1]?.slice(0, 2)}` : "")
+  const formattedValue = parts[0] + (parts.length > 1 ? `.${parts[1]?.slice(0, 2)}` : "")
 
   if (!formattedValue) return ""
 
@@ -51,7 +50,7 @@ export const PriceFilter = ({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-2">
-        <Label className="font-medium text-base">Minimum price</Label>
+        <Label className="text-base font-medium">Minimum price</Label>
         <Input
           type="text"
           placeholder="0"
@@ -60,7 +59,7 @@ export const PriceFilter = ({
         />
       </div>
       <div className="flex flex-col gap-2">
-        <Label className="font-medium text-base">Maximum price</Label>
+        <Label className="text-base font-medium">Maximum price</Label>
         <Input
           type="text"
           placeholder="∞"

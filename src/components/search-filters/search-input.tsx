@@ -26,7 +26,7 @@ export const SearchInput = ({ disabled }: Props) => {
         onOpenChange={setIsSidebarOpen}
       />
       <div className="relative w-full">
-        <SearchIcon className="-translate-y-1/2 absolute top-1/2 left-3 size-4 text-neutral-500" />
+        <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-neutral-500" />
         <Input
           className="pl-8"
           placeholder="Search Products"

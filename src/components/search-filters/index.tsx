@@ -16,9 +16,7 @@ export const SearchFilters = () => {
   const categoryParam = params.category as string | undefined
   const activeCategory = categoryParam || "all"
 
-  const activeCategoryData = data.find(
-    (category) => category.slug === activeCategory
-  )
+  const activeCategoryData = data.find((category) => category.slug === activeCategory)
 
   const activeCategoryColor = activeCategoryData?.color || DEFAULT_BG_COLOR
   const activeCategoryName = activeCategoryData?.name || null
@@ -26,7 +24,7 @@ export const SearchFilters = () => {
   const activeSubCategory = params.subcategory as string | undefined
   const activeSubCategoryName =
     activeCategoryData?.subcategories.find(
-      (subcategory) => subcategory.slug === activeSubCategory
+      (subcategory) => subcategory.slug === activeSubCategory,
     )?.name || null
 
   return (

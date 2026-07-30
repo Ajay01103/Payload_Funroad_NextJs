@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: fine to use */
-/** biome-ignore-all lint/a11y/useKeyWithClickEvents: fine to use */
 "use client"
 
 import { ChevronDown, ChevronRight } from "lucide-react"

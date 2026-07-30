@@ -1,5 +1,8 @@
-import config from "@payload-config"
+import "dotenv/config"
 import { getPayload } from "payload"
+import config from "@payload-config"
+
+// import { stripe } from "./lib/stripe";
 
 const categories = [
   {
@@ -138,74 +141,60 @@ const categories = [
 ]
 
 const seed = async () => {
-  try {
-    const payload = await getPayload({ config })
+  const payload = await getPayload({ config })
 
-    console.log("Starting to seed categories...")
+  // const adminAccount = await stripe.accounts.create({});
 
-    // Clear existing categories first
-    const existingCategories = await payload.find({
+  // Create admin tenant
+  //   const adminTenant = await payload.create({
+  //     collection: "tenants",
+  //     data: {
+  //       name: "admin",
+  //       slug: "admin",
+  //       stripeAccountId: adminAccount.id,
+  //     },
+  //   });
+
+  // Create admin user
+  await payload.create({
+    collection: "users",
+    data: {
+      email: "ajay@gmail.com",
+      password: "ajay@123",
+      roles: ["super-admin"],
+      username: "Ajay",
+    },
+  })
+
+  for (const category of categories) {
+    const parentCategory = await payload.create({
       collection: "categories",
-      limit: 1000,
+      data: {
+        name: category.name,
+        slug: category.slug,
+        color: category.color,
+        parent: null,
+      },
     })
 
-    console.log(
-      `Found ${existingCategories.docs.length} existing categories. Clearing them...`
-    )
-
-    for (const existingCategory of existingCategories.docs) {
-      await payload.delete({
-        collection: "categories",
-        id: existingCategory.id,
-      })
-    }
-
-    let totalCreated = 0
-
-    for (const category of categories) {
-      console.log(`Creating parent category: ${category.name}`)
-
-      const parentCategory = await payload.create({
+    for (const subCategory of category.subcategories || []) {
+      await payload.create({
         collection: "categories",
         data: {
-          name: category.name,
-          slug: category.slug,
-          color: category.color,
-          parent: null,
+          name: subCategory.name,
+          slug: subCategory.slug,
+          parent: parentCategory.id,
         },
       })
-
-      totalCreated++
-      console.log(
-        `✓ Created parent category: ${category.name} (ID: ${parentCategory.id})`
-      )
-
-      if (category.subcategories) {
-        console.log(
-          `Creating ${category.subcategories.length} subcategories for ${category.name}`
-        )
-
-        for (const subcategory of category.subcategories) {
-          await payload.create({
-            collection: "categories",
-            data: {
-              name: subcategory.name,
-              slug: subcategory.slug,
-              parent: parentCategory.id,
-            },
-          })
-          totalCreated++
-          console.log(`  ✓ Created subcategory: ${subcategory.name}`)
-        }
-      }
     }
-
-    console.log(`\n🎉 Seeding completed! Created ${totalCreated} categories total.`)
-  } catch (error) {
-    console.error("Error during seeding:", error)
-    throw error
   }
 }
 
-await seed()
-process.exit(0)
+try {
+  await seed()
+  console.log("Seeding completed successfully")
+  process.exit(0)
+} catch (error) {
+  console.error("Error during seeding:", error)
+  process.exit(1) // Exit with error code
+}
