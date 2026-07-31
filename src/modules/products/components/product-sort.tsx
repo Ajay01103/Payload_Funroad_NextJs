@@ -13,7 +13,7 @@ export const ProductSort = () => {
         className={cn(
           "rounded-full bg-white hover:bg-white",
           filters.sort !== "curated" &&
-            "border-transparent bg-transparent hover:border-border hover:bg-transparent"
+            "border-transparent bg-transparent hover:border-border hover:bg-transparent",
         )}
         variant="secondary"
         onClick={() => setFilters({ sort: "curated" })}>
@@ -24,7 +24,7 @@ export const ProductSort = () => {
         className={cn(
           "rounded-full bg-white hover:bg-white",
           filters.sort !== "trending" &&
-            "border-transparent bg-transparent hover:border-border hover:bg-transparent"
+            "border-transparent bg-transparent hover:border-border hover:bg-transparent",
         )}
         variant="secondary"
         onClick={() => setFilters({ sort: "trending" })}>
@@ -35,7 +35,7 @@ export const ProductSort = () => {
         className={cn(
           "rounded-full bg-white hover:bg-white",
           filters.sort !== "hot_and_new" &&
-            "border-transparent bg-transparent hover:border-border hover:bg-transparent"
+            "border-transparent bg-transparent hover:border-border hover:bg-transparent",
         )}
         variant="secondary"
         onClick={() => setFilters({ sort: "hot_and_new" })}>

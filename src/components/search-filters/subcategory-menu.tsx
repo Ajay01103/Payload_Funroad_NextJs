@@ -4,10 +4,9 @@ import type { CategoriesGetManyOutput } from "@/modules/categories/types"
 interface Props {
   category: CategoriesGetManyOutput[1]
   isOpen: boolean
-  position: { top: number; left: number }
 }
 
-export const SubCategoryMenu = ({ category, isOpen, position }: Props) => {
+export const SubCategoryMenu = ({ category, isOpen }: Props) => {
   if (!isOpen || !category.subcategories || category.subcategories.length === 0) {
     return null
   }
@@ -16,14 +15,14 @@ export const SubCategoryMenu = ({ category, isOpen, position }: Props) => {
 
   return (
     <div
-      className="fixed z-100"
-      style={{ top: position.top, left: position.left }}>
+      className="absolute z-100"
+      style={{ top: "100%", left: 0 }}>
       {/* invisible gap */}
       <div className="h-3 w-60" />
 
       <div
         style={{ backgroundColor }}
-        className="-translate-x-[2px] -translate-y-[2px] w-60 overflow-hidden rounded-md border text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        className="w-60 -translate-x-[2px] -translate-y-[2px] overflow-hidden rounded-md border text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
         <div>
           {category.subcategories.map((subcategory) => (
             <Link

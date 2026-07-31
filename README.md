@@ -1,38 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Payload Cloudflare Template
 
-## Getting Started
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/payloadcms/payload/tree/3.x/templates/with-cloudflare-d1)
 
-First, run the development server:
+**This can only be deployed on Paid Workers right now due to size limits.** This template comes configured with the bare minimum to get started on anything you need.
+
+## Quick start
+
+This template can be deployed directly to Cloudflare Workers by clicking the button to take you to the setup screen.
+
+From there you can connect your code to a git provider such Github or Gitlab, name your Workers, D1 Database and R2 Bucket as well as attach any additional environment variables or services you need.
+
+## Quick Start - local setup
+
+To spin up this template locally, follow these steps:
+
+### Clone
+
+After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. Cloudflare will connect your app to a git provider such as Github and you can access your code from there.
+
+### Local Development
+
+## How it works
+
+Out of the box, using [`Wrangler`](https://developers.cloudflare.com/workers/wrangler/) will automatically create local bindings for you to connect to the remote services and it can even create a local mock of the services you're using with Cloudflare.
+
+We've pre-configured Payload for you with the following:
+
+### Collections
+
+See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+
+- #### Users (Authentication)
+
+  Users are auth-enabled collections that have access to the admin panel.
+
+  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/3.x/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+
+- #### Media
+
+  This is the uploads enabled collection.
+
+### Image Storage (R2)
+
+Images will be served from an R2 bucket which you can then further configure to use a CDN to serve for your frontend directly.
+
+### D1 Database
+
+The Worker will have direct access to a D1 SQLite database which Wrangler can connect locally to, just note that you won't have a connection string as you would typically with other providers.
+
+You can enable read replicas by adding `readReplicas: 'first-primary'` in the DB adapter and then enabling it on your D1 Cloudflare dashboard. Read more about this feature on [our docs](https://payloadcms.com/docs/database/sqlite#d1-read-replicas).
+
+## Working with Cloudflare
+
+Firstly, after installing dependencies locally you need to authenticate with Wrangler by running:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm wrangler login
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will take you to Cloudflare to login and then you can use the Wrangler CLI locally for anything, use `pnpm wrangler help` to see all available options.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Wrangler is pretty smart so it will automatically bind your services for local development just by running `pnpm dev`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployments
 
-## Learn More
+When you're ready to deploy, first make sure you have created your migrations:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm payload migrate:create
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Then run the following command:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm run deploy
+```
 
-## Deploy on Vercel
+This will spin up Wrangler in `production` mode, run any created migrations, build the app and then deploy the bundle up to Cloudflare.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+That's it! You can if you wish move these steps into your CI pipeline as well.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Enabling logs
 
-![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/Ajay01103/Payload_Funroad_NextJs?utm_source=oss&utm_medium=github&utm_campaign=Ajay01103%2FPayload_Funroad_NextJs&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+By default logs are not enabled for your API, we've made this decision because it does run against your quota so we've left it opt-in. But you can easily enable logs in one click in the Cloudflare panel, [see docs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs).
+
+### Logger Configuration
+
+This template includes a custom console-based logger compatible with Cloudflare Workers. Payload's default logger uses `pino-pretty`, which relies on Node.js APIs not available in Workers and would cause `fs.write is not implemented` errors.
+
+The custom logger in `payload.config.ts`:
+
+- Routes logs through `console.*` methods which Workers handles correctly
+- Outputs JSON-formatted logs for Cloudflare observability
+- Only active in production (development uses the default `pino-pretty` for better DX)
+
+You can control the log level via the `PAYLOAD_LOG_LEVEL` environment variable (e.g., `debug`, `info`, `warn`, `error`).
+
+### Diagnostic Channel Errors
+
+If you see "Failed to publish diagnostic channel message" errors in your observability logs, these typically come from the `undici` HTTP client library. The template includes `skipSafeFetch: true` in the Media collection to use native fetch instead of undici for file uploads, which helps reduce these errors.
+
+Cloudflare Workers runs in an [isolated environment that cannot access private IP ranges](https://developers.cloudflare.com/workers-vpc/examples/route-across-private-services/) by default, providing built-in SSRF protection. This makes `skipSafeFetch` safe to use.
+
+## Known issues
+
+### GraphQL
+
+We are currently waiting on some issues with GraphQL to be [fixed upstream in Workers](https://github.com/cloudflare/workerd/issues/5175) so full support for GraphQL is not currently guaranteed when deployed.
+
+### Worker size limits
+
+We currently recommend deploying this template to the Paid Workers plan due to bundle [size limits](https://developers.cloudflare.com/workers/platform/limits/#worker-size) of 3mb. We're actively trying to reduce our bundle footprint over time to better meet this metric.
+
+This also applies to your own code, in the case of importing a lot of libraries you may find yourself limited by the bundle.
+
+## Questions
+
+If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).

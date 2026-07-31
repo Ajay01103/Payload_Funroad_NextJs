@@ -21,7 +21,7 @@ export const Products: CollectionConfig = {
       required: true,
       min: 0,
       admin: {
-        description: "in INR",
+        description: "in USD",
       },
     },
     {

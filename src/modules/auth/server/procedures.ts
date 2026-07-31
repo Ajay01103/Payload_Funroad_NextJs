@@ -12,90 +12,100 @@ export const authRouter = createTRPCRouter({
 
     return session
   }),
-  register: baseProcedure
-    .input(registerAuthSchema)
-    .mutation(async ({ ctx, input }) => {
-      const { payload } = ctx
+  register: baseProcedure.input(registerAuthSchema).mutation(async ({ ctx, input }) => {
+    const { payload } = ctx
 
-      // Check for existing username or email in a single query
-      const existingUsers = await payload.find({
-        collection: "users",
-        limit: 2, // We only need to find up to 2 users (one for username, one for email)
-        where: {
-          or: [
-            {
-              username: {
-                equals: input.username,
-              },
+    // Check for existing username or email in a single query
+    const existingUsers = await payload.find({
+      collection: "users",
+      limit: 2, // We only need to find up to 2 users (one for username, one for email)
+      where: {
+        or: [
+          {
+            username: {
+              equals: input.username,
             },
-            {
-              email: {
-                equals: input.email,
-              },
+          },
+          {
+            email: {
+              equals: input.email,
             },
-          ],
-        },
+          },
+        ],
+      },
+    })
+
+    // Check which field(s) are already taken
+    const existingUsername = existingUsers.docs.find(
+      (user) => user.username === input.username,
+    )
+
+    if (existingUsername) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Username already taken",
       })
+    }
 
-      // Check which field(s) are already taken
-      const existingUsername = existingUsers.docs.find(
-        (user) => user.username === input.username
-      )
+    const existingEmail = existingUsers.docs.find((user) => user.email === input.email)
 
-      if (existingUsername) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Username already taken",
-        })
-      }
-
-      const existingEmail = existingUsers.docs.find(
-        (user) => user.email === input.email
-      )
-
-      if (existingEmail) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Email already registered",
-        })
-      }
-
-      await payload.create({
-        collection: "users",
-        data: {
-          username: input.username,
-          email: input.email,
-          password: input.password, // this is automatically hashed by payload
-          role: "user" as const, // default role for new users
-        },
+    if (existingEmail) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Email already registered",
       })
+    }
 
-      const data = await payload.login({
-        collection: "users",
-        data: {
-          email: input.email,
-          password: input.password,
-        },
+    const tenant = await payload.db.create({
+      collection: "tenants",
+      data: {
+        name: input.username,
+        slug: input.username,
+        stripeAccountId: "test",
+      },
+    })
+
+    await payload.create({
+      collection: "users",
+      data: {
+        username: input.username,
+        email: input.email,
+        password: input.password, // this is automatically hashed by payload
+        roles: ["user"], // default role for new users
+        tenants: [
+          {
+            tenant: tenant.id,
+          },
+        ],
+      },
+    })
+
+    const data = await payload.login({
+      collection: "users",
+      data: {
+        email: input.email,
+        password: input.password,
+      },
+    })
+
+    if (!data.token) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Failed to login",
       })
+    }
 
-      if (!data.token) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "Failed to login",
-        })
-      }
-
-      const cookies = await getCookies()
-      cookies.set({
-        name: `${payload.config.cookiePrefix}-token`, // standard way for payload auth otherwise auth will not work
-        value: data.token,
-        httpOnly: true,
-        path: "/",
-        // sameSite: 'none',
-        // "domain": ""
-        // TODO: ensure cross domain cookie sharing for prod
-      })
-    }),
+    const cookies = await getCookies()
+    cookies.set({
+      name: `${payload.config.cookiePrefix}-token`, // standard way for payload auth otherwise auth will not work
+      value: data.token,
+      httpOnly: true,
+      path: "/",
+      // sameSite: 'none',
+      // "domain": ""
+      // TODO: ensure cross domain cookie sharing for prod
+    })
+  }),
   login: baseProcedure.input(loginAuthScehma).mutation(async ({ ctx, input }) => {
     const { payload } = ctx
 

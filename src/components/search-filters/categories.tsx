@@ -104,7 +104,7 @@ export const Categories = ({ data }: Props) => {
             onClick={() => setIsSidebarOpen(true)}
             className={cn(
               "h-11 rounded-full border-transparent bg-transparent px-4 text-black hover:border-primary hover:bg-white",
-              isActiveCategoryHidden && !isAnyHovered && "border-primary bg-white"
+              isActiveCategoryHidden && !isAnyHovered && "border-primary bg-white",
             )}>
             View All
             <ListFilter className="ml-2" />

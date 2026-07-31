@@ -9,7 +9,7 @@ export const registerAuthSchema = z.object({
     .max(50, "Username must be less than 50 characters")
     .regex(
       /^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
-      "username can only have lowercase letters, numbers and hyphens, it must starts and end with letters or numbers"
+      "username can only have lowercase letters, numbers and hyphens, it must starts and end with letters or numbers",
     )
     .refine((val) => !val.includes("--"), "username cannot contain double hyphens")
     .transform((val) => val.toLowerCase()),

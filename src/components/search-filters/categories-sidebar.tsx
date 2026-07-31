@@ -84,7 +84,7 @@ export const CategoriesSidebar = ({ onOpenChange, open }: Props) => {
             <button
               type="button"
               onClick={handleBackClick}
-              className="flex w-full items-center p-4 text-left font-medium text-base hover:bg-black hover:text-white">
+              className="flex w-full items-center p-4 text-left text-base font-medium hover:bg-black hover:text-white">
               <ChevronLeft className="mr-2 size-4" />
               Back
             </button>
@@ -94,13 +94,11 @@ export const CategoriesSidebar = ({ onOpenChange, open }: Props) => {
               type="button"
               key={category.slug}
               onClick={() => handleCategoryClick(category)}
-              className="flex w-full cursor-pointer items-center justify-between p-4 text-left font-medium text-base hover:bg-black hover:text-white">
+              className="flex w-full cursor-pointer items-center justify-between p-4 text-left text-base font-medium hover:bg-black hover:text-white">
               {category.name}
               {"subcategories" in category &&
                 category.subcategories &&
-                category.subcategories.length > 0 && (
-                  <ChevronRight className="size-4" />
-                )}
+                category.subcategories.length > 0 && <ChevronRight className="size-4" />}
             </button>
           ))}
         </ScrollArea>

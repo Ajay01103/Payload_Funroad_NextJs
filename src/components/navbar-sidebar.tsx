@@ -31,7 +31,7 @@ export const NavbarSidebar = ({ items, onOpenChange, open }: Props) => {
               href={item.href}
               key={item.href}
               onClick={() => onOpenChange(false)}
-              className="flex w-full items-center p-4 text-left font-medium text-base hover:bg-black hover:text-white">
+              className="flex w-full items-center p-4 text-left text-base font-medium hover:bg-black hover:text-white">
               {item.children}
             </Link>
           ))}
@@ -40,13 +40,13 @@ export const NavbarSidebar = ({ items, onOpenChange, open }: Props) => {
             <Link
               href="/sign-in"
               onClick={() => onOpenChange(false)}
-              className="flex w-full items-center p-4 text-left font-medium text-base hover:bg-black hover:text-white">
+              className="flex w-full items-center p-4 text-left text-base font-medium hover:bg-black hover:text-white">
               Log in
             </Link>
             <Link
               href="/sign-up"
               onClick={() => onOpenChange(false)}
-              className="flex w-full items-center p-4 text-left font-medium text-base hover:bg-black hover:text-white">
+              className="flex w-full items-center p-4 text-left text-base font-medium hover:bg-black hover:text-white">
               Start Selling
             </Link>
           </div>

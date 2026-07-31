@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: fine to use */
-/** biome-ignore-all lint/a11y/useKeyWithClickEvents: fine to use */
-
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { Loader } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -23,8 +20,8 @@ export const TagsFilters = ({ onChange, value }: Props) => {
         {
           getNextPageParam: (lastpage) =>
             lastpage.docs.length > 0 ? lastpage.nextPage : undefined,
-        }
-      )
+        },
+      ),
     )
 
   const onClick = (tag: string) => {
@@ -54,7 +51,7 @@ export const TagsFilters = ({ onChange, value }: Props) => {
                 onCheckedChange={() => onClick(tag.name)}
               />
             </div>
-          ))
+          )),
         )
       )}
 

@@ -57,9 +57,7 @@ export const Navbar = () => {
       <Link
         href="/"
         className="flex items-center pl-6">
-        <span className={cn("font-semibold text-5xl", poppins.className)}>
-          funroad
-        </span>
+        <span className={cn("font-semibold text-5xl", poppins.className)}>funroad</span>
       </Link>
 
       <NavbarSidebar
@@ -88,7 +86,7 @@ export const Navbar = () => {
                 variant: "secondary",
                 className:
                   "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-black px-12 text-lg text-white transition-colors hover:bg-pink-400 hover:text-black",
-              })
+              }),
             )}>
             Dashboard
           </Link>
@@ -102,7 +100,7 @@ export const Navbar = () => {
                 variant: "secondary",
                 className:
                   "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-white px-12 text-lg transition-colors hover:bg-pink-400",
-              })
+              }),
             )}>
             Login
           </Link>
@@ -113,7 +111,7 @@ export const Navbar = () => {
                 variant: "secondary",
                 className:
                   "h-full rounded-none border-t-0 border-r-0 border-b-0 border-l bg-black px-12 text-lg text-white transition-colors hover:bg-pink-400 hover:text-black",
-              })
+              }),
             )}>
             Start Selling
           </Link>
@@ -140,7 +138,7 @@ const NavButton = ({ children, isActive, href }: NavProps) => {
         buttonVariants({ variant: "outline", size: "sm" }),
         "transition-colors",
         isActive ? "bg-black text-white hover:bg-black/90" : "hover:bg-gray-100",
-        "rounded-full border-transparent px-4 hover:border-black"
+        "rounded-full border-transparent px-4 hover:border-black",
       )}>
       {children}
     </Link>
